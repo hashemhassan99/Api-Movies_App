@@ -2,10 +2,10 @@
 @section('content')
     <div class="movie-info border-b border-gray-800 flex-col md:felx-row">
         <div class="container mx-auto px-4 py-16 flex">
-            <img src="/img/parasite.jpg" alt="parasite" class="w-64 md:w-96">
+            <img src="{{'https://image.tmdb.org/t/p/w500/'.$movie['poster_path']}}" alt="parasite" class="w-64 md:w-96">
             <div class="md:ml-24">
                 <h2 class="text-4xl font-semibold">
-                    Parasite(2019)
+                    {{$movie['title']}}
                 </h2>
                 <div class="flex flex-wrap item-center text-gray-400 text-sm">
                     <svg class="fill-current text-orange-500 w-4" viewBox="0 0 24 24">
@@ -15,36 +15,38 @@
                                 data-name="star"/>
                         </g>
                     </svg>
-                    <span class="ml-1">85%</span>
+                    <span class="ml-1">{{$movie['vote_average']}}</span>
                     <span class="mx-2">|</span>
-                    <span>Feb 20, 2020</span>
+                    <span>{{\Carbon\Carbon::parse($movie['release_date'])->format('M d,y')}}</span>
                     <span class="mx-2">|</span>
-                    <span class="mx-2">Action , Thriller , Drama</span>
+                    <span class="mx-2">
+                         @foreach($movie['genres'] as $genre)
+                            {{$genre['name']}}
+                        @endforeach
+                    </span>
                 </div>
                 <p class="text-gray-300 mt-8">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aspernatur aut cum, dolorum ea
-                    error illo incidunt ipsa ipsum itaque magnam minus numquam officia perferendis quaerat quas qui
-                    similique sit, sunt temporibus unde vel voluptate? Dolor, perspiciatis, porro? Accusantium aliquam
-                    consequuntur dolores enim, in laborum magnam porro reiciendis. Dolor.
+                   {{$movie['overview']}}
                 </p>
 
                 <div class="mt-12">
                     <h4 class="text-white font-semibold">Featured Cast</h4>
                     <div class="flex mt-4">
-                        <div>
-                            <div>Han Jin-won</div>
-                            <div class="text-sm text-gray-400">Screenplay</div>
+                        @foreach($movie['credits']['crew'] as $crew)
+                            @if($loop->index < 2)
+                        <div class="mr-8">
+                            <div>{{$crew['name']}}</div>
+                            <div class="text-sm text-gray-400">{{$crew['job']}}</div>
                         </div>
-                        <div class="ml-8">
-                            <div>Bong Jon-ho</div>
-                            <div class="text-sm text-gray-400">Screenplay,Director,Story</div>
-                        </div>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
-
+                @if(count($movie['videos']['results']) >0 )
                 <div class="mt-12">
-                    <button
-                        class="flex items-center bg-orange-500 text-gray-900 rounded font-semibold px-5 py-4 hover:bg-orange-600">
+                    <a href="https://youtube.com/watch?v={{$movie['videos']['results'][0]['key']}}"
+                       class="flex inline-flex  items-center bg-orange-500 text-gray-900 rounded font-semibold px-5 py-4 hover:bg-orange-600"
+                       target="_blank">
                         <svg class="w-6 fill-current" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0z" fill="none"/>
                             <path
@@ -52,9 +54,9 @@
                         </svg>
 
                         <span class="ml-12">Play Trailer</span>
-                    </button>
-
+                    </a>
                 </div>
+                @endif
             </div>
         </div>
     </div>
@@ -63,58 +65,23 @@
         <div class="container mx-auto px-4 py-16">
             <h2 class="text-4xl font-semibold">Cast</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+                @foreach($movie['credits']['cast'] as $cast)
+                    @if($loop->index <5)
                 <div class="mt-8">
                     <a href="">
-                        <img src="/img/parasite.jpg" alt="parasite" class="hover:opacity-75">
+                        <img src="{{'https://image.tmdb.org/t/p/w300/'.$cast['profile_path']}}" alt="parasite" class="hover:opacity-75">
                     </a>
                     <div class="mt-2">
-                        <a href="" class="text-lg mt-2 hover:text-gray-300">Real Name</a>
+                        <a href="" class="text-lg mt-2 hover:text-gray-300">{{$cast['name']}}</a>
                         <div class="flex item-center text-gray-400 text-sm mt-1">
                         </div>
                         <div class="text-gray-400 text-sm">
-                            Hashem
+                            {{$cast['character']}}
                         </div>
                     </div>
                 </div>
-                <div class="mt-8">
-                    <a href="">
-                        <img src="/img/parasite.jpg" alt="parasite" class="hover:opacity-75">
-                    </a>
-                    <div class="mt-2">
-                        <a href="" class="text-lg mt-2 hover:text-gray-300">Real Name</a>
-                        <div class="flex item-center text-gray-400 text-sm mt-1">
-                        </div>
-                        <div class="text-gray-400 text-sm">
-                            Hashem
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-8">
-                    <a href="">
-                        <img src="/img/parasite.jpg" alt="parasite" class="hover:opacity-75">
-                    </a>
-                    <div class="mt-2">
-                        <a href="" class="text-lg mt-2 hover:text-gray-300">Real Name</a>
-                        <div class="flex item-center text-gray-400 text-sm mt-1">
-                        </div>
-                        <div class="text-gray-400 text-sm">
-                            Hashem
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-8">
-                    <a href="">
-                        <img src="/img/parasite.jpg" alt="parasite" class="hover:opacity-75">
-                    </a>
-                    <div class="mt-2">
-                        <a href="" class="text-lg mt-2 hover:text-gray-300">Real Name</a>
-                        <div class="flex item-center text-gray-400 text-sm mt-1">
-                        </div>
-                        <div class="text-gray-400 text-sm">
-                            Hashem
-                        </div>
-                    </div>
-                </div>
+                    @endif
+                @endforeach
             </div>
 
         </div>
@@ -124,30 +91,14 @@
         <div class="container mx-auto px-4 py-16">
             <h2 class="text-4xl font-semibold">Images</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+                @foreach($movie['images']['backdrops'] as $image)
                 <div class="mt-8">
                     <a href="">
-                        <img src="/img/parasite.jpg" alt="parasite" class="hover:opacity-75">
+                        <img src="{{'https://image.tmdb.org/t/p/w300/'.$image['file_path']}}" alt="parasite" class="hover:opacity-75">
                     </a>
 
                 </div>
-                <div class="mt-8">
-                    <a href="">
-                        <img src="/img/parasite.jpg" alt="parasite" class="hover:opacity-75">
-                    </a>
-
-                </div>
-                <div class="mt-8">
-                    <a href="">
-                        <img src="/img/parasite.jpg" alt="parasite" class="hover:opacity-75">
-                    </a>
-
-                </div>
-                <div class="mt-8">
-                    <a href="">
-                        <img src="/img/parasite.jpg" alt="parasite" class="hover:opacity-75">
-                    </a>
-
-                </div>
+                @endforeach
             </div>
 
         </div>

@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Movie App</title>
     <link rel="stylesheet" href="/css/main.css">
+    <livewire:styles />
 </head>
 <body class="font-sans bg-gray-900 text-white">
 <nav class="border-b border-gray-800">
@@ -23,7 +24,7 @@
             </li>
 
             <li class="md:ml-16">
-                <a href="#" class="hover:text-gray-300 mt-3 md:mt-0">Movies</a>
+                <a href="{{route('movies.index')}}" class="hover:text-gray-300 mt-3 md:mt-0">Movies</a>
             </li>
 
             <li class="md:ml-6">
@@ -53,5 +54,6 @@
     </div>
 </nav>
 @yield('content')
+<livewire:scripts />
 </body>
 </html>
